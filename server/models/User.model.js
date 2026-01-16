@@ -1,6 +1,8 @@
 const { Schema, model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
+// const SALT_ROUNDS = 10;
+
 const userSchema = new Schema(
   {
     email: {
@@ -34,6 +36,26 @@ const userSchema = new Schema(
   }
 );
 
+/*
+// Hash password before saving
+userSchema.pre("save", async function (next) {
+  // Only hash if password is modified (or new)
+  if (!this.isModified("password")) {
+    return next();
+  }
+  try {
+    this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Method to compare passwords
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+*/
 const User = model("User", userSchema);
 
 module.exports = User;
