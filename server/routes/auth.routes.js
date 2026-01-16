@@ -27,5 +27,23 @@ router.post("/signup", async (req, res, next) => {
 });
 
 // route to login an existing user
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(403).json({ errorMessage: "Email not in DB" });
+    } else {
+      const doesPasswordMatch = bcryptjs.compareSync(password, user.password);
+      if (doesPasswordMatch) {
+        res.status(200).json({ message: "You are now logged in!", user });
+      } else {
+        res.status(403).json({ errorMessage: "Invalid credentials" });
+      }
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
