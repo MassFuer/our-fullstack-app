@@ -63,8 +63,7 @@ router.post("/login", async (req, res, next) => {
 
 // this route verify the auth token
 router.get("/verify", isAuthenticated, (req, res, next) => {
-  // get the token from the request headers
-  res.status(200).json({ message: "Token is valid" });
+  res.status(200).json({ message: "Token is valid", payload: req.payload });
 });
 
 module.exports = router;
