@@ -4,6 +4,7 @@ const User = require("../models/User.model");
 const bcryptjs = require("bcryptjs");
 
 const jwt = require("jsonwebtoken");
+const { isAuthenticated } = require("../middlewares/jwt.middlewares");
 
 // route to signup a new user
 router.post("/signup", async (req, res, next) => {
@@ -58,6 +59,12 @@ router.post("/login", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+// this route verify the auth token
+router.get("/verify", isAuthenticated, (req, res, next) => {
+  // get the token from the request headers
+  res.status(200).json({ message: "Token is valid" });
 });
 
 module.exports = router;
