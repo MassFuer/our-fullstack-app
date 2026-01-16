@@ -3,6 +3,8 @@ const User = require("../models/User.model");
 
 const bcryptjs = require("bcryptjs");
 
+const jwt = require("jsonwebtoken");
+
 // route to signup a new user
 router.post("/signup", async (req, res, next) => {
   try {
@@ -36,7 +38,19 @@ router.post("/login", async (req, res, next) => {
     } else {
       const doesPasswordMatch = bcryptjs.compareSync(password, user.password);
       if (doesPasswordMatch) {
-        res.status(200).json({ message: "You are now logged in!", user });
+        const payload = {
+          // don't put sensitive info in the token!
+          _id: user._id,
+        };
+        const authToken = jwt.sign(payload, process.env.JWT_SECRET, {
+          algorithm: "HS256",
+          expiresIn: "6h",
+        });
+        res.status(200).json({
+          message: "Congrats, you are now logged in!",
+          user,
+          token: authToken,
+        });
       } else {
         res.status(403).json({ errorMessage: "Invalid credentials" });
       }
