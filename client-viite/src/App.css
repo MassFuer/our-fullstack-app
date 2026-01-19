@@ -1,0 +1,45 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+nav {
+  background-color: gray;
+  padding: 10px;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav img {
+  height: 80%;
+}
+main {
+  min-height: 70vh;
+  background-color: rgb(126, 49, 49);
+  padding: 10px;
+}
+a {
+  text-decoration: none;
+  color: white;
+  margin: 0 10px;
+}
+.active {
+  color: red;
+  font-size: 1.3rem;
+  border: 1px solid red;
+}
+footer {
+  background-color: gray;
+  padding: 10px;
+  height: 10vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: lightgray;
+}
