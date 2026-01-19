@@ -14,28 +14,26 @@ const AuthProvider = ({ children }) => {
   //function to authenticate user with token
   async function authenticateUser() {
     const tokenInStorage = localStorage.getItem("authToken");
-    try {
-      if (tokenInStorage) {
-        const loggedInUser = await axios.get(
-          "http://localhost:5005/auth/verify",
-          {
-            headers: {
-              Authorization: `Bearer ${tokenInStorage}`,
-            },
-          },
-        );
-        setCurrentUser(loggedInUser.data.user);
-        setIsLoggedIn(true);
-      } else {
-        setCurrentUser(null);
-        setIsLoading(false);
-        setIsLoggedIn(false);
-        nav("/");
-      }
-    } catch (error) {
-      console.error("Error authenticating user:", error);
+    if (!tokenInStorage) {
       setCurrentUser(null);
       setIsLoading(false);
+      setIsLoggedIn(false);
+      nav("/");
+      return;
+    }
+    try {
+      const { data } = await axios.get("http://localhost:5005/auth/verify", {
+        headers: {
+          authorization: `Bearer ${tokenInStorage}`,
+        },
+      });
+
+      console.log(data);
+      setCurrentUser(data.decodedToken._id);
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.log(error);
+      setCurrentUser(null);
       setIsLoggedIn(false);
       nav("/");
     } finally {
