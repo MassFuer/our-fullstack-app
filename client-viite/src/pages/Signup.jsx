@@ -6,9 +6,11 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
   const nav = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     try {
       // const createdUser = await axios.post(
@@ -31,13 +33,14 @@ const Signup = () => {
       nav("/login");
     } catch (error) {
       console.error("Error during signup:", error);
+      setError(error.response.data.errorMessage);
     }
   };
 
   return (
     <div>
       <h1>Signup Form</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSignup}>
         <label htmlFor="username">
           Username:
           <input
@@ -68,6 +71,8 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        {/* show the error message if there is an error */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Signup</button>
       </form>
     </div>
