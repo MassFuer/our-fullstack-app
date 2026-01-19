@@ -62,8 +62,11 @@ router.post("/login", async (req, res, next) => {
 });
 
 // this route verify the auth token
-router.get("/verify", isAuthenticated, (req, res, next) => {
-  res.status(200).json({ message: "Token is valid", payload: req.payload });
+router.get("/verify", isAuthenticated, async (req, res, next) => {
+  const currentLoggedInUser = await User.findById(req.payload._id).select(
+    "-password",
+  );
+  res.status(200).json({ message: "Token is valid", currentLoggedInUser });
 });
 
 module.exports = router;

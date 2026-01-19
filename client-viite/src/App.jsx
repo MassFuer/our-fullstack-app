@@ -6,6 +6,7 @@ import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Logout from "./pages/Logout.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
   return (
@@ -17,7 +18,14 @@ function App() {
           <Route path="/" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           {/* route for '/profile' that shows the Profile page */}
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
           {/* route for '/logout' that shows the Logout page */}
           <Route path="/logout" element={<Logout />} />
         </Routes>

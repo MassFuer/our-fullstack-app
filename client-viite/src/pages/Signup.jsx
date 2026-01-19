@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [userName, setUserName] = useState("");
@@ -74,6 +74,10 @@ const Signup = () => {
         {/* show the error message if there is an error */}
         {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Signup</button>
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+
       </form>
     </div>
   );

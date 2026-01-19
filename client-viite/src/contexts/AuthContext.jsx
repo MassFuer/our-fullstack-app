@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
       });
 
       console.log(data);
-      setCurrentUser(data.decodedToken._id);
+      setCurrentUser(data.currentLoggedInUser);
       setIsLoggedIn(true);
     } catch (error) {
       console.log(error);
@@ -40,12 +40,28 @@ const AuthProvider = ({ children }) => {
       setIsLoading(false);
     }
   }
+
+  const handleLogOut = () => {
+    localStorage.removeItem("authToken");
+    setCurrentUser(null);
+    setIsLoggedIn(false);
+    nav("/login");
+  };
+
   useEffect(() => {
     authenticateUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, isLoading, isLoggedIn }}>
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        isLoading,
+        isLoggedIn,
+        authenticateUser,
+        handleLogOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

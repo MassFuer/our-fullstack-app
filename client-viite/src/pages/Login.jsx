@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const nav = useNavigate();
+  const { authenticateUser } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,12 +22,15 @@ const Login = () => {
       });
       console.log(data);
       // store the auth token in local storage
-      localStorage.setItem("authToken", data.authToken);
+      localStorage.setItem("authToken", data.token);
+      await authenticateUser();
       // redirect to the profile page
       nav("/profile");
     } catch (error) {
       console.error("Error during login:", error);
-      setError(error.response?.data?.errorMessage || "An error occurred during login");
+      setError(
+        error.response?.data?.errorMessage || "An error occurred during login",
+      );
     }
   };
 
@@ -54,8 +59,11 @@ const Login = () => {
           />
         </label>
         <button type="submit">Login</button>
+        <p>
+          Don't have an account? <Link to="/">Signup</Link>
+        </p>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };
