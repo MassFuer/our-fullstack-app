@@ -5,6 +5,7 @@ import Footer from "./components/Footer.jsx";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import AddPetPage from "./pages/AddPetPage.jsx";
 import Logout from "./pages/Logout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
